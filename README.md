@@ -1,136 +1,344 @@
-# POOH HUB AI-Tunnel V1.2 — Portable Control Center
+# 🚇 POOH HUB AI-Tunnel V4.2
 
-AI Tunnel Client for Windows with a portable CMD control center.
+> **Fast • Lightweight • Secure • MCP Backend**
+>
+> AI Tunnel สำหรับเชื่อม AI เข้ากับ Workspace, Files, Windows, Network และ Developer Tools ผ่าน MCP อย่างเป็นระบบ
 
-## V1.2 architecture
+---
 
-The tunnel exposes a scoped MCP filesystem workspace. Optional automation capabilities are kept disabled by default and are policy-controlled rather than giving the AI unrestricted control of Windows.
+## ✨ V4.2 มีอะไรเพิ่มจาก V1?
 
-### Core features
+| V1 | V4.2 |
+|---|---|
+| เครื่องมือพื้นฐาน | **124 MCP Tools** |
+| File operations จำกัด | Workspace + File Tools ครบขึ้น |
+| System tools น้อย | Windows / System / Network Tools |
+| Developer support พื้นฐาน | Node / npm / Python / Git / Project Detection |
+| ไม่มีระบบ Approval ครบ | **Approval & Safety Gate** |
+| รองรับ Windows จำกัด | Windows executable `.cmd/.bat` รองรับดีขึ้น |
+| ทดสอบแยกส่วน | **MCP Self-Test** |
+| Workspace ตายตัว | รองรับ `WORKSPACE_PATH` |
+| Tool กระจาย | **Single MCP Registry** |
+| Export เอง | **Public/Git Export System** |
 
-- Background `tunnel-client.exe` while the Control Center stays open.
-- Default workspace is `POOH HUB AI-Tunnel V1.2\workspace`.
-- A project can be selected as the active AI workspace at runtime.
-- MCP filesystem access is scoped to the active workspace/project.
-- Tunnel credentials are passed through `CONTROL_PLANE_API_KEY`, not command-line arguments.
-- Tunnel output is stored in `logs\`.
-- Local AI access test suite checks MCP, Node, workspace, health, process, Git and capability policy.
+---
 
-### Project + GitHub auto-backup
+## 🧩 Tool Categories
 
-Option `[11] Project + GitHub Backup` provides:
+### 📁 Workspace & Files
+- `workspace_info`
+- `files_list`
+- `files_exists`
+- `files_stat`
+- `files_read_text`
+- `files_hash`
+- `files_find`
+- `files_search_text`
+- `files_tree`
+- `files_compare`
+- `workspace_usage`
 
-1. Add/update a project profile.
-2. Choose the local project folder.
-3. Enter the GitHub repository URL.
-4. Choose the branch.
-5. Toggle auto-backup per project.
-6. Activate one project for AI use.
+### 🌿 Git
+- `git_status`
+- `git_diff`
+- `git_log`
+- `git_branches`
+- `git_remotes`
+- `git_current_branch`
+- `git_repo_root`
 
-When at least one project has auto-backup enabled, starting the tunnel also starts a hidden backup worker. The worker periodically commits changed files and pushes to the configured branch. Git authentication is intentionally delegated to normal Git/Windows credential handling; credentials are not stored in the AI Tunnel config.
+### 🖥️ Windows & System
+- `windows_list_windows`
+- `windows_active_window`
+- `windows_session_info`
+- `windows_shell_folders`
+- `system_info`
+- `system_cpu`
+- `system_memory`
+- `system_temp_dir`
+- `system_home_dir`
+- `system_processes`
+- `system_drives`
 
-Common secret files are never staged by the backup worker:
+### 🌐 Network
+- Network interfaces
+- Hostname
+- DNS lookup
+- Reverse DNS
+- TCP probe
+- Network connections
 
-- `.env` / `.env.*`
-- `*.pem`, `*.key`, `*.p12`, `*.pfx`
-- `*credentials*.json`
-- `*secret*.json`
+### 🛠️ Developer Tools
+- Node.js / npm
+- Python / py
+- Git
+- Project detection
+- Package scripts
+- Lockfiles
+- Project discovery
+- Toolchain detection
+- Version detection
 
-Project profiles are stored locally in `config\projects.json` and are ignored by Git.
+### 📦 Archive & WSL
+- ZIP inspection
+- WSL distro detection
+- WSL status
+- WSL version
+- WSL path
 
-## AI capability policy
+### 🧵 Stitch
+- Project discovery
+- Screen discovery
+- Job status
+- Job results
+- Job listing
 
-Option `[12] AI Capability Policy` controls optional categories:
+---
 
-- Windows actions
-- Browser
-- Database
-- Email
-- Docker
-- GUI actions
+## 🔐 Approval System
 
-All are **OFF by default**. The policy supports scoped allowlists such as allowed apps, browser domains, database connections, email recipients, containers and GUI actions.
+คำสั่งที่อาจสร้างผลกระทบต่อระบบ เช่น **สร้าง / แก้ไข / ลบไฟล์ หรือการเปลี่ยนแปลงที่สำคัญ** จะผ่าน Approval ก่อนดำเนินการ
 
-This project deliberately does **not** enable unrestricted shell execution, unrestricted Windows control, arbitrary browser automation, arbitrary database writes, arbitrary email delivery, or unrestricted Docker/GUI control. Those would bypass the workspace security boundary. Each optional integration should be implemented as a separate, auditable MCP adapter with an explicit allowlist.
-
-The current tunnel runtime still uses the filesystem MCP server as its core AI tool. Turning a policy flag ON does not by itself install or expose a new adapter.
-
-## Structure
+แนวคิดหลัก:
 
 ```text
-AI-Tunnel\
-├─ tunnel-client.exe
-├─ run.bat
-├─ setup.bat
-├─ config\
-│  ├─ .env
-│  ├─ capabilities.json
-│  ├─ projects.json              # local only, ignored by Git
-│  ├─ gptwork.runtime.yaml
-│  ├─ tunnel.pid
-│  └─ backup-worker.pid
-├─ logs\
-│  ├─ tunnel.stdout.log
-│  ├─ tunnel.stderr.log
-│  └─ backup.log
-├─ scripts\
-│  ├─ launcher.ps1
-│  ├─ setup.ps1
-│  ├─ tunnel-worker.ps1
-│  ├─ project-manager.ps1
-│  └─ backup-worker.ps1
-├─ workspace\
-├─ git-backup.bat
-└─ git-backup.ps1
+AI Request
+    ↓
+MCP Registry
+    ↓
+Policy / Approval Check
+    ↓
+Tool Execution
+    ↓
+Structured Result
 ```
 
-## Control Center
+ช่วยลดการทำงานผิดพลาดและทำให้การใช้งาน Tool มีขอบเขตชัดเจน
 
-- `[1]` Start Tunnel
-- `[2]` Stop Tunnel
-- `[3]` Restart Tunnel
-- `[4]` Health Check
-- `[5]` Settings
-- `[6]` Open Workspace
-- `[7]` View Logs
-- `[8]` Diagnostics
-- `[9]` AI Access Test Suite
-- `[10]` Setup / Reconfigure
-- `[11]` Project + GitHub Backup
-- `[12]` AI Capability Policy
-- `[0]` Exit
+---
 
-## First run on any Windows PC
+## 🚀 วิธีติดตั้งและใช้งาน
 
-1. Extract the portable package to any folder. Do **not** depend on `C:\Users\POOHHUB` or another fixed username/path.
-2. Make sure `tunnel-client.exe` is present in `tunnel\`.
-3. Make sure Node.js is installed and available as `node`/`npm` because the MCP bridge runs with Node.
-4. Run `setup.bat`.
-5. Enter **that user's own Tunnel ID** and Control Plane/GPT API key. Never distribute your personal `tunnel\.env` or generated `tunnel\gptwork.yaml`.
-6. Keep the default workspace as `workspace\` for a portable installation, or intentionally choose another folder.
-7. Run `run.bat` to open the Control Center.
+### 1. เข้าโฟลเดอร์
 
-## Building a safe package to give to other users
+```bat
+cd /d "C:\Users\POOHHUB\Desktop\000\AI\GPT-Project\Tunnel-V4.2"
+```
 
-Run `BUILD-PORTABLE.bat` from the project root. It creates `dist\POOH-HUB-AI-Tunnel-V1.2-Portable.zip` and removes/blocks machine-local credentials, generated tunnel profiles, logs, runtime state and `node_modules` from the package.
+### 2. เริ่ม Tunnel
 
-The package is **portable by path**, but the tunnel account is intentionally **not shared**. Each user must run setup with their own Tunnel ID/API key. This prevents your credentials and tunnel identity from being handed to other users.
+```bat
+run.bat
+```
 
-### Requirements
+### 3. ทดสอบ Backend
 
-- Windows 10/11, preferably 64-bit.
-- PowerShell 5.1+.
-- Node.js available as `node` (required by the MCP bridge).
-- A compatible `tunnel-client.exe` for the target Windows architecture.
-- A valid Tunnel ID and Control Plane/API credential for the person using the package.
+```bat
+node ".\scripts\mcp-self-test.mjs"
+```
 
-The application resolves its project root from the script location and uses project-relative paths for the default workspace, so moving the extracted folder to another drive, folder or Windows username does not break it.
+ถ้าทำงานถูกต้องจะได้:
 
-## Security
+```text
+============================================================
+POOH HUB MCP BACKEND SELF-TEST
+============================================================
 
-- Never commit `config\.env`.
-- Never put API keys directly in BAT arguments.
-- Keep the active AI project limited to files the AI is intended to access.
-- Use GitHub authentication through Git/Windows Credential Manager instead of saving tokens in project config.
-- Review Git changes before enabling automatic push on important repositories.
-- Optional capability categories are scoped and disabled by default.
+Registry/Backend : PASS
+...
+
+RESULT: PASS (0 failures)
+```
+
+---
+
+## 🤖 ใช้งานผ่าน AI / MCP
+
+ตัวอย่าง:
+
+```text
+@v1 เรียก workspace_info
+```
+
+```text
+@v1 เรียก files_list
+```
+
+```text
+@v1 เรียก system_info
+```
+
+```text
+@v1 เรียก system_memory
+```
+
+```text
+@v1 เรียก network_interfaces
+```
+
+จากนั้น AI จะเรียก Tool ที่อยู่ใน **Single MCP Registry** และคืนผลลัพธ์แบบ Structured Result
+
+---
+
+## 📂 Workspace
+
+ค่าเริ่มต้นคือ:
+
+```text
+./workspace
+```
+
+หรือ:
+
+```text
+C:\Users\POOHHUB\Desktop\000\AI\GPT-Project\Tunnel-V4.2\workspace
+```
+
+สามารถกำหนด Workspace เองด้วย:
+
+```text
+WORKSPACE_PATH
+```
+
+ตัวอย่าง:
+
+```bat
+set WORKSPACE_PATH=C:\MyWorkspace
+```
+
+---
+
+## 🧪 Testing
+
+คำสั่งหลักสำหรับตรวจสอบ Backend:
+
+```bat
+node ".\scripts\mcp-self-test.mjs"
+```
+
+สถานะปัจจุบัน:
+
+```text
+MCP Registry : 124 implemented tools
+Backend      : PASS
+Self-test    : 0 failures
+Workspace    : ./workspace
+```
+
+> หมายเหตุ: `PASS` ของ Self-Test หมายถึง Backend และชุดทดสอบที่กำหนดทำงานถูกต้อง ไม่ได้หมายความว่า Tool ทุกตัวถูกทดสอบกับทุก Input ที่เป็นไปได้
+
+---
+
+## 📤 Public Export
+
+สำหรับเตรียมโปรเจกต์เพื่อเผยแพร่ GitHub ใช้:
+
+```bat
+C:\Users\POOHHUB\Desktop\000\AI\GPT-Project\EXPORT-TUNNEL-VERSION.bat
+```
+
+ผลลัพธ์:
+
+```text
+PUBLIC\Tunnel-V4.2
+```
+
+ระบบ Export จะคัดลอก Source ที่จำเป็น และตัดข้อมูลส่วนตัว/Runtime/Secrets เช่น:
+
+- `.env`
+- `node_modules`
+- `workspace`
+- `runtime`
+- `logs`
+- `.git`
+- credentials / secrets
+- private keys / certificates
+- temporary files
+
+---
+
+## 🏗️ Architecture
+
+```text
+                    ┌──────────────────┐
+                    │       AI         │
+                    │      @v1         │
+                    └────────┬─────────┘
+                             │ MCP
+                             ▼
+                 ┌──────────────────────┐
+                 │   AI-Tunnel V4.2     │
+                 │   Single Registry    │
+                 │      124 Tools       │
+                 └──────────┬───────────┘
+                            │
+             ┌──────────────┼──────────────┐
+             ▼              ▼              ▼
+        Workspace        Windows        Developer
+          Files           System          Tools
+             │              │              │
+             └──────────────┼──────────────┘
+                            ▼
+                   Structured Results
+```
+
+---
+
+## 📁 Project Structure
+
+```text
+Tunnel-V4.2/
+├─ scripts/
+│  ├─ stitch-mcp.mjs
+│  ├─ mcp-self-test.mjs
+│  ├─ platform-resolver.mjs
+│  ├─ manager.ps1
+│  ├─ tunnel-host.ps1
+│  └─ tui.ps1
+│
+├─ workspace/
+├─ run.bat
+├─ README.md
+└─ ...
+```
+
+---
+
+## 🛡️ Design Principles
+
+- ⚡ Fast & Lightweight
+- 🔒 Approval-first for high-impact operations
+- 🧩 Single MCP Registry
+- 🪟 Windows-first compatibility
+- 📦 Structured tool results
+- 🧪 Built-in self-test
+- 🧹 Public export without local secrets
+- 🎯 Workspace-scoped file operations
+
+---
+
+## 🆚 V1 → V4.2 สรุปสั้น ๆ
+
+**V1:** MCP/Tunnel พื้นฐานสำหรับเชื่อม AI กับเครื่อง
+
+**V4.2:** ขยายเป็น Backend เต็มระบบสำหรับ AI โดยรวม **124 Tools + Workspace + Files + Git + Windows + System + Network + Developer + WSL + Stitch + Approval + Self-Test** ไว้ใน Registry เดียว
+
+---
+
+## 📌 Version
+
+```text
+POOH HUB AI-Tunnel V4.2
+MCP Registry : 124 implemented tools
+Backend      : PASS
+Self-test    : 0 failures
+Workspace    : ./workspace
+Platform     : Windows
+```
+
+---
+
+<p align="center">
+  <b>POOH HUB AI-Tunnel V4.2</b><br>
+  Fast • Lightweight • Secure • MCP
+</p>
