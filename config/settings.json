@@ -1,6 +1,6 @@
-{
+﻿{
     "version":  "1.2",
-    "workspace":  "../workspace",
+    "workspace":  "C:\\Users\\User\\Downloads\\Tunnel-V4.2\\workspace",
     "scope":  {
                   "mode":  "workspace",
                   "allowedPaths":  [
