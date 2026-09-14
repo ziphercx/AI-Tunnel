@@ -1,160 +1,84 @@
-# 🚇 POOH HUB AI-Tunnel V4.2
+# POOH HUB AI-Tunnel V4.2
 
-> **Fast • Lightweight • Secure • MCP Backend**
->
-> AI Tunnel สำหรับเชื่อม AI เข้ากับ Workspace, Files, Windows, Network และ Developer Tools ผ่าน MCP อย่างเป็นระบบ
+> A lightweight MCP tunnel/backend that gives AI clients a controlled set of workspace, system, developer, network, Git, archive, and automation tools.
 
----
+[![Version](https://img.shields.io/badge/version-V4.2-blue)](#)
+[![MCP](https://img.shields.io/badge/MCP-enabled-purple)](#)
+[![Tools](https://img.shields.io/badge/tools-124-success)](#features)
 
-## ✨ V4.2 มีอะไรเพิ่มจาก V1?
+## What is AI-Tunnel?
 
-| V1 | V4.2 |
+AI-Tunnel is a local MCP backend designed to let compatible AI clients interact with a computer through a controlled tool registry.
+
+Instead of giving an AI unrestricted access to the machine, AI-Tunnel exposes specific tools with defined behavior and an approval layer for operations that can modify data or system state.
+
+## What changed from V1?
+
+V4.2 expands the original concept into a much broader MCP backend:
+
+- **124 registered tools** in one MCP registry
+- Workspace and file management
+- File search, comparison, hashing, tree and usage information
+- Git status, diff, log, branches, remotes and repository information
+- Terminal and Windows session tools
+- System, CPU, memory and environment information
+- Network interface, DNS and TCP diagnostic tools
+- Node.js, npm, Python, Git and project detection tools
+- Archive/ZIP inspection
+- WSL detection and status tools
+- Stitch project and job tools
+- Approval handling for higher-impact operations
+- Configurable workspace through `WORKSPACE_PATH`
+- Windows executable compatibility for commands such as `npm.cmd`
+- Built-in MCP backend self-test
+
+## Features
+
+| Area | Examples |
 |---|---|
-| เครื่องมือพื้นฐาน | **124 MCP Tools** |
-| File operations จำกัด | Workspace + File Tools ครบขึ้น |
-| System tools น้อย | Windows / System / Network Tools |
-| Developer support พื้นฐาน | Node / npm / Python / Git / Project Detection |
-| ไม่มีระบบ Approval ครบ | **Approval & Safety Gate** |
-| รองรับ Windows จำกัด | Windows executable `.cmd/.bat` รองรับดีขึ้น |
-| ทดสอบแยกส่วน | **MCP Self-Test** |
-| Workspace ตายตัว | รองรับ `WORKSPACE_PATH` |
-| Tool กระจาย | **Single MCP Registry** |
-| Export เอง | **Public/Git Export System** |
+| Workspace | List, read, search, compare and inspect files |
+| Git | Status, diff, log, branches, remotes |
+| Terminal | Run and inspect terminal jobs |
+| Windows | Windows/session/shell information |
+| System | CPU, memory, paths, temporary directory |
+| Network | Interfaces, hostname, DNS, TCP probe |
+| Developer | Toolchains, versions, projects, lockfiles |
+| Archive | ZIP inspection |
+| WSL | Distribution and WSL status |
+| Stitch | Projects, screens and jobs |
+| Security | Approval and controlled tool execution |
 
----
+## Quick Start
 
-## 🧩 Tool Categories
+### 1. Start AI-Tunnel
 
-### 📁 Workspace & Files
-- `workspace_info`
-- `files_list`
-- `files_exists`
-- `files_stat`
-- `files_read_text`
-- `files_hash`
-- `files_find`
-- `files_search_text`
-- `files_tree`
-- `files_compare`
-- `workspace_usage`
-
-### 🌿 Git
-- `git_status`
-- `git_diff`
-- `git_log`
-- `git_branches`
-- `git_remotes`
-- `git_current_branch`
-- `git_repo_root`
-
-### 🖥️ Windows & System
-- `windows_list_windows`
-- `windows_active_window`
-- `windows_session_info`
-- `windows_shell_folders`
-- `system_info`
-- `system_cpu`
-- `system_memory`
-- `system_temp_dir`
-- `system_home_dir`
-- `system_processes`
-- `system_drives`
-
-### 🌐 Network
-- Network interfaces
-- Hostname
-- DNS lookup
-- Reverse DNS
-- TCP probe
-- Network connections
-
-### 🛠️ Developer Tools
-- Node.js / npm
-- Python / py
-- Git
-- Project detection
-- Package scripts
-- Lockfiles
-- Project discovery
-- Toolchain detection
-- Version detection
-
-### 📦 Archive & WSL
-- ZIP inspection
-- WSL distro detection
-- WSL status
-- WSL version
-- WSL path
-
-### 🧵 Stitch
-- Project discovery
-- Screen discovery
-- Job status
-- Job results
-- Job listing
-
----
-
-## 🔐 Approval System
-
-คำสั่งที่อาจสร้างผลกระทบต่อระบบ เช่น **สร้าง / แก้ไข / ลบไฟล์ หรือการเปลี่ยนแปลงที่สำคัญ** จะผ่าน Approval ก่อนดำเนินการ
-
-แนวคิดหลัก:
-
-```text
-AI Request
-    ↓
-MCP Registry
-    ↓
-Policy / Approval Check
-    ↓
-Tool Execution
-    ↓
-Structured Result
-```
-
-ช่วยลดการทำงานผิดพลาดและทำให้การใช้งาน Tool มีขอบเขตชัดเจน
-
----
-
-## 🚀 วิธีติดตั้งและใช้งาน
-
-### 1. เข้าโฟลเดอร์
-
-```bat
-cd /d "C:\Users\POOHHUB\Desktop\000\AI\GPT-Project\Tunnel-V4.2"
-```
-
-### 2. เริ่ม Tunnel
+On Windows, run:
 
 ```bat
 run.bat
 ```
 
-### 3. ทดสอบ Backend
+### 2. Check the backend
 
 ```bat
 node ".\scripts\mcp-self-test.mjs"
 ```
 
-ถ้าทำงานถูกต้องจะได้:
+A successful installation should report:
 
 ```text
-============================================================
-POOH HUB MCP BACKEND SELF-TEST
-============================================================
-
-Registry/Backend : PASS
-...
-
 RESULT: PASS (0 failures)
 ```
 
----
+### 3. Connect your MCP-compatible AI client
 
-## 🤖 ใช้งานผ่าน AI / MCP
+Configure the client to use the AI-Tunnel MCP server according to the client's MCP configuration format.
 
-ตัวอย่าง:
+Once connected, the available tools are advertised from the single registry.
+
+## Using the tools
+
+For example, an AI client can request read-only information such as:
 
 ```text
 @v1 เรียก workspace_info
@@ -169,176 +93,177 @@ RESULT: PASS (0 failures)
 ```
 
 ```text
-@v1 เรียก system_memory
+@v1 เรียก dev_versions
 ```
 
-```text
-@v1 เรียก network_interfaces
-```
+The exact command depends on the AI client or integration being used.
 
-จากนั้น AI จะเรียก Tool ที่อยู่ใน **Single MCP Registry** และคืนผลลัพธ์แบบ Structured Result
+## Workspace
 
----
+AI-Tunnel uses a workspace directory as the normal boundary for file-related operations.
 
-## 📂 Workspace
-
-ค่าเริ่มต้นคือ:
+By default:
 
 ```text
 ./workspace
 ```
 
-หรือ:
+A different workspace can be selected with:
 
 ```text
-C:\Users\POOHHUB\Desktop\000\AI\GPT-Project\Tunnel-V4.2\workspace
+WORKSPACE_PATH=PATH_TO_WORKSPACE
 ```
 
-สามารถกำหนด Workspace เองด้วย:
+Relative paths are resolved from the AI-Tunnel project directory.
+
+## Approval & Safety
+
+AI-Tunnel separates read-only operations from operations that can change data or system state.
+
+Higher-impact operations can require approval before execution. This helps prevent an AI client from silently making unwanted changes.
+
+The exact approval behavior depends on the tool being called and the configured policy.
+
+> **Important:** Never place passwords, API keys, tokens, private certificates, or other secrets in the repository or README.
+
+## Project Structure
+
+A typical installation contains components similar to:
 
 ```text
-WORKSPACE_PATH
-```
-
-ตัวอย่าง:
-
-```bat
-set WORKSPACE_PATH=C:\MyWorkspace
-```
-
----
-
-## 🧪 Testing
-
-คำสั่งหลักสำหรับตรวจสอบ Backend:
-
-```bat
-node ".\scripts\mcp-self-test.mjs"
-```
-
-สถานะปัจจุบัน:
-
-```text
-MCP Registry : 124 implemented tools
-Backend      : PASS
-Self-test    : 0 failures
-Workspace    : ./workspace
-```
-
-> หมายเหตุ: `PASS` ของ Self-Test หมายถึง Backend และชุดทดสอบที่กำหนดทำงานถูกต้อง ไม่ได้หมายความว่า Tool ทุกตัวถูกทดสอบกับทุก Input ที่เป็นไปได้
-
----
-
-## 📤 Public Export
-
-สำหรับเตรียมโปรเจกต์เพื่อเผยแพร่ GitHub ใช้:
-
-```bat
-C:\Users\POOHHUB\Desktop\000\AI\GPT-Project\EXPORT-TUNNEL-VERSION.bat
-```
-
-ผลลัพธ์:
-
-```text
-PUBLIC\Tunnel-V4.2
-```
-
-ระบบ Export จะคัดลอก Source ที่จำเป็น และตัดข้อมูลส่วนตัว/Runtime/Secrets เช่น:
-
-- `.env`
-- `node_modules`
-- `workspace`
-- `runtime`
-- `logs`
-- `.git`
-- credentials / secrets
-- private keys / certificates
-- temporary files
-
----
-
-## 🏗️ Architecture
-
-```text
-                    ┌──────────────────┐
-                    │       AI         │
-                    │      @v1         │
-                    └────────┬─────────┘
-                             │ MCP
-                             ▼
-                 ┌──────────────────────┐
-                 │   AI-Tunnel V4.2     │
-                 │   Single Registry    │
-                 │      124 Tools       │
-                 └──────────┬───────────┘
-                            │
-             ┌──────────────┼──────────────┐
-             ▼              ▼              ▼
-        Workspace        Windows        Developer
-          Files           System          Tools
-             │              │              │
-             └──────────────┼──────────────┘
-                            ▼
-                   Structured Results
-```
-
----
-
-## 📁 Project Structure
-
-```text
-Tunnel-V4.2/
+AI-Tunnel/
 ├─ scripts/
 │  ├─ stitch-mcp.mjs
 │  ├─ mcp-self-test.mjs
 │  ├─ platform-resolver.mjs
-│  ├─ manager.ps1
-│  ├─ tunnel-host.ps1
-│  └─ tui.ps1
-│
+│  └─ ...
 ├─ workspace/
 ├─ run.bat
 ├─ README.md
 └─ ...
 ```
 
----
+Generated files, local configuration, secrets, and runtime data should not be committed to a public repository.
 
-## 🛡️ Design Principles
+## Requirements
 
-- ⚡ Fast & Lightweight
-- 🔒 Approval-first for high-impact operations
-- 🧩 Single MCP Registry
-- 🪟 Windows-first compatibility
-- 📦 Structured tool results
-- 🧪 Built-in self-test
-- 🧹 Public export without local secrets
-- 🎯 Workspace-scoped file operations
+Typical requirements for running the backend include:
 
----
+- Windows or another supported environment
+- Node.js
+- npm
+- An MCP-compatible AI client
+- Optional tools such as Git, Python, or WSL when their corresponding features are needed
 
-## 🆚 V1 → V4.2 สรุปสั้น ๆ
+The exact requirements depend on which tools you intend to use.
 
-**V1:** MCP/Tunnel พื้นฐานสำหรับเชื่อม AI กับเครื่อง
+## Testing
 
-**V4.2:** ขยายเป็น Backend เต็มระบบสำหรับ AI โดยรวม **124 Tools + Workspace + Files + Git + Windows + System + Network + Developer + WSL + Stitch + Approval + Self-Test** ไว้ใน Registry เดียว
+Run the built-in backend test:
 
----
-
-## 📌 Version
-
-```text
-POOH HUB AI-Tunnel V4.2
-MCP Registry : 124 implemented tools
-Backend      : PASS
-Self-test    : 0 failures
-Workspace    : ./workspace
-Platform     : Windows
+```bat
+node ".\scripts\mcp-self-test.mjs"
 ```
 
+The self-test checks the registry, workspace handling, core tools, platform integrations, and supported environment states.
+
+A tool reporting a structured state such as "not a Git repository" or "no WSL distribution installed" does not necessarily mean the backend is broken; some tools can validly report that the requested capability is unavailable in the current environment.
+
+## Public Repository Safety
+
+Before publishing AI-Tunnel, keep machine-specific information out of the repository.
+
+Do **not** publish:
+
+- Local usernames or personal directory paths
+- API keys or access tokens
+- Passwords
+- Private certificates or keys
+- Local runtime logs
+- Local workspace contents
+- Machine-specific configuration
+- Temporary files
+
+Use placeholders in documentation instead:
+
+```text
+C:\Path\To\AI-Tunnel
+```
+
+instead of a real personal computer path.
+
+## Exporting a Public Version
+
+If the project includes the public export script, run:
+
+```bat
+EXPORT-TUNNEL-VERSION.bat
+```
+
+The export should contain the source needed for distribution while excluding local/runtime data and sensitive configuration.
+
+Always review the generated directory before pushing it to a public repository.
+
+## V1 → V4.2 at a glance
+
+| | V1 | V4.2 |
+|---|---:|---:|
+| MCP tool registry | Basic | 124 tools |
+| Workspace tools | ✓ | Expanded |
+| File tools | Basic | Expanded |
+| Git tools | Limited | Expanded |
+| System tools | Limited | Expanded |
+| Network diagnostics | Limited | ✓ |
+| Developer tools | Basic | Expanded |
+| WSL tools | — | ✓ |
+| Archive tools | — | ✓ |
+| Stitch tools | — | ✓ |
+| Approval system | Basic | Expanded |
+| Backend self-test | ✓ | ✓ |
+
+## Troubleshooting
+
+### `npm` cannot be found
+
+Make sure Node.js is installed and available to the environment. AI-Tunnel includes executable resolution for common Windows installations.
+
+### Git reports that the directory is not a repository
+
+This is a valid Git state. Run the Git tools inside a Git repository if repository information is required.
+
+### WSL is unavailable
+
+WSL-related tools can report an unavailable/empty environment when WSL or a Linux distribution is not installed.
+
+### ZIP file does not exist
+
+`archive_list_zip` requires a real ZIP file as its input. An invalid or missing path is an input error, not an indication that the MCP backend itself failed.
+
+## Development
+
+The project is intended to keep tool registration centralized so that clients receive one consistent MCP tool surface.
+
+When adding a new tool:
+
+1. Add the implementation to the appropriate backend/registry location.
+2. Keep its input and output behavior predictable.
+3. Respect workspace and approval boundaries.
+4. Add or update self-tests where appropriate.
+5. Run the backend self-test before publishing a release.
+
+## License
+
+See the repository's `LICENSE` file if one is provided.
+
+## Status
+
+**AI-Tunnel V4.2**
+
+- MCP Registry: **124 tools**
+- Backend self-test: **PASS**
+- Intended workspace: `./workspace`
+- Public documentation: **machine-independent**
+
 ---
 
-<p align="center">
-  <b>POOH HUB AI-Tunnel V4.2</b><br>
-  Fast • Lightweight • Secure • MCP
-</p>
+Built for controlled, practical AI-to-computer interaction through MCP.
