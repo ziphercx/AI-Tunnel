@@ -1,0 +1,94 @@
+POOH HUB AI-Tunnel V1.2 / Tunnel-V4.2
+CLEANUP CANDIDATES — generated 2026-09-14
+
+IMPORTANT:
+- This file is a cleanup checklist only. Nothing listed here has been deleted automatically.
+- Keep tunnel-client.exe, tunnel\gptwork.yaml, tunnel\.env, config\, scripts\, and workspace\ unless you intentionally remove a feature.
+
+[SAFE TO DELETE]
+
+1) node
+   Path: .\node
+   Size: 0 B
+   Reason: Empty 0-byte file. It is not the Node.js executable.
+
+2) mcp-demo-files\.keep
+   Path: .\mcp-demo-files\.keep
+   Size: tiny/placeholder
+   Reason: Placeholder only. The V4.2 MCP workspace is .\workspace.
+
+3) runtime\start\*.log
+   Path: .\runtime\start\
+   Size currently about 1.55 KB total
+   Reason: Historical startup stdout/stderr files. They are regenerated when the TUI starts.
+   Action: Safe to delete the contents of runtime\start\, not the directory itself.
+
+[OPTIONAL / DELETE ONLY IF YOU DO NOT NEED HISTORY]
+
+4) runtime\logs\tunnel.stdout.log
+   Size: about 113.56 KB
+   Reason: Historical tunnel output. Useful for debugging, but not required for normal startup.
+
+5) runtime\logs\errors.log
+   Size: about 12.71 KB
+   Reason: Historical errors. Keep if you want diagnostic history; otherwise regenerable.
+
+6) runtime\logs\activity.log
+   Size: about 3.05 KB
+   Reason: Historical MCP activity. Regenerable.
+
+7) runtime\logs\setup.stderr.log
+   Size: about 549 B
+   Reason: Historical setup stderr. Regenerable.
+
+8) runtime\logs\last-action-error.log
+   Size: about 124 B
+   Reason: Last error snapshot. Regenerable.
+
+9) runtime\logs\tunnel-host.log
+   Size: about 72 B
+   Reason: Historical tunnel-host log. Regenerable.
+
+10) runtime\logs\setup.log
+    Size: 0 B
+    Reason: Empty log file. Regenerated when needed.
+
+11) runtime\logs\tunnel.stderr.log
+    Size: 0 B
+    Reason: Empty log file. Regenerated when needed.
+
+[DO NOT DELETE]
+
+- .\scripts\*.ps1 / *.mjs : application code and MCP tools
+- .\config\settings.json : configuration
+- .\config\capabilities.json : capability configuration
+- .\tunnel\tunnel-client.exe : tunnel runtime binary
+- .\tunnel\gptwork.yaml : tunnel profile
+- .\tunnel\.env : tunnel credentials/configuration (KEEP PRIVATE)
+- .\workspace\ : active MCP workspace
+- .\runtime\approvals\ : approval state/history may be needed by the approval bridge
+- .\runtime\pids\ : runtime PID state (small; regenerated)
+- .\runtime\terminal-jobs\ : job state/history; delete only if you do not need job history
+- .\runtime\stitch-jobs\ : Stitch job state/history; delete only if you do not need job history
+- README.md / SUMMARY.md : documentation
+- BUILD-*.ps1 / BUILD-*.bat : build/portable scripts unless you have permanently abandoned those workflows
+- setup.bat / run.bat : startup/setup entrypoints
+
+NOTE ABOUT THE OLD ERRORS:
+The inspected errors.log contains references to Tunnel-V4.1-New and port 18020, including old WorkingDirectory, npm install, TUI PID-variable, and TUI 'if' parsing errors. Those records are historical V4.1 errors, not proof that the current V4.2 files still contain the same paths.
+
+CURRENT V4.2 FIXES APPLIED:
+- Added central executable resolver: scripts\platform-resolver.mjs
+- Workspace is normalized/created from the V4.2 project root.
+- Node/npm/Python/Git/PowerShell/cmd resolution no longer depends only on PATH.
+- Windows PowerShell calls use resolved executable paths.
+- Child tunnel environment receives repaired PATH + absolute WORKSPACE_PATH.
+- V4.2 TUI log-view 'if' expression bug was fixed.
+- V4.2 Doctor now checks Node/npm/PowerShell/Git/Python and accepts the actual self-test RESULT: PASS format.
+- Windows system/network provider stubs were replaced with PowerShell-backed data collection where supported.
+
+FINAL CHECK TO RUN AFTER CLEANUP:
+node ".\scripts\mcp-self-test.mjs"
+
+Expected:
+RESULT: PASS (0 failures)

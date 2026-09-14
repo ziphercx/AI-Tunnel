@@ -1,0 +1,61 @@
+{
+    "version":  "1.2",
+    "workspace":  "../workspace",
+    "scope":  {
+                  "mode":  "workspace",
+                  "allowedPaths":  [
+
+                                   ],
+                  "allowFullComputer":  false
+              },
+    "permissions":  {
+                        "fileAccess":  "ask",
+                        "terminalAccess":  "ask",
+                        "destructiveActions":  "ask",
+                        "sessionApproval":  false,
+                        "alwaysAllow":  false
+                    },
+    "features":  {
+                     "files":  true,
+                     "terminal":  true,
+                     "extended":  true,
+                     "stitch":  true
+                 },
+    "network":  {
+                    "healthHost":  "127.0.0.1",
+                    "healthPort":  18021
+                },
+    "terminal":  {
+                     "mode":  "workspace",
+                     "unknownExecutable":  "approval",
+                     "shells":  "approval",
+                     "destructive":  "approval",
+                     "maxConcurrentJobs":  4,
+                     "maxRuntimeSeconds":  1800,
+                     "maxOutputBytes":  5242880
+                 },
+    "stitch":  {
+                   "defaultOutputDir":  ".gpt/stitch"
+               },
+    "gitBackup":  {
+                      "enabled":  false,
+                      "intervalMinutes":  15,
+                      "excludeSecrets":  true,
+                      "requirePushApproval":  true
+                  },
+    "aiProviders":  {
+                        "active":  "openai",
+                        "controlPlaneUrl":  "https://api.openai.com",
+                        "supported":  [
+                                          "openai",
+                                          "anthropic",
+                                          "gemini",
+                                          "xai",
+                                          "deepseek",
+                                          "mistral",
+                                          "groq",
+                                          "openrouter",
+                                          "custom"
+                                      ]
+                    }
+}

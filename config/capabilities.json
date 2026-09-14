@@ -1,0 +1,8 @@
+{
+  "windows": {"enabled": false, "mode": "scoped", "allowedApps": []},
+  "browser": {"enabled": false, "mode": "scoped", "allowedDomains": []},
+  "database": {"enabled": false, "mode": "scoped", "allowedConnections": []},
+  "email": {"enabled": false, "mode": "scoped", "allowedRecipients": []},
+  "docker": {"enabled": false, "mode": "scoped", "allowedContainers": []},
+  "gui": {"enabled": false, "mode": "scoped", "allowedActions": []}
+}

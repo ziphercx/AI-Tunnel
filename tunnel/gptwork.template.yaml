@@ -1,0 +1,23 @@
+config_version: 1
+
+# This is a template only. setup.bat generates the real gptwork.yaml locally.
+# Never distribute a configured profile containing someone else's tunnel ID.
+control_plane:
+  base_url: "https://api.openai.com"
+  tunnel_id: "SETUP_REQUIRED"
+  api_key: "env:CONTROL_PLANE_API_KEY"
+
+health:
+  listen_addr: "127.0.0.1:18021"
+
+admin_ui:
+  open_browser: false
+
+log:
+  level: info
+  format: json
+
+mcp:
+  commands:
+    - channel: main
+      command: 'node "../scripts/stitch-mcp.mjs"'

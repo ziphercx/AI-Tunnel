@@ -1,0 +1,26 @@
+# Secrets / credentials
+.env
+.env.*
+config/.env
+config/secrets/
+*.key
+*.pem
+*.p12
+*.pfx
+*credentials*.json
+*secret*.json
+config/projects.json
+config/providers.json
+config/stitch-api-key.txt
+config/tunnel.pid
+config/backup-worker.pid
+runtime/
+logs/
+node_modules/
+
+# Local tunnel credentials and generated machine profile
+tunnel/.env
+tunnel/gptwork.yaml
+
+# Portable build output
+dist/

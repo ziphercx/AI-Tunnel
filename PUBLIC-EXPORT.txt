@@ -1,0 +1,4 @@
+POOHHUB Tunnel V4.2 - Full Public Export
+Complete source/runtime files copied from Tunnel-V4.2.
+Private credentials, .env files, local workspace data, dependencies, caches and generated runtime data were excluded.
+Create/configure private local credentials separately after cloning.
