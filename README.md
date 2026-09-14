@@ -1,8 +1,8 @@
-# POOH HUB AI-Tunnel V4.2
+# POOH HUB AI-Tunnel V1.2
 
 > A lightweight MCP tunnel/backend that gives AI clients a controlled set of workspace, system, developer, network, Git, archive, and automation tools.
 
-[![Version](https://img.shields.io/badge/version-V4.2-blue)](#)
+[![Version](https://img.shields.io/badge/version-V1.2-blue)](#)
 [![MCP](https://img.shields.io/badge/MCP-enabled-purple)](#)
 [![Tools](https://img.shields.io/badge/tools-124-success)](#features)
 
@@ -14,7 +14,7 @@ Instead of giving an AI unrestricted access to the machine, AI-Tunnel exposes sp
 
 ## What changed from V1?
 
-V4.2 expands the original concept into a much broader MCP backend:
+V1.2 expands the original concept into a much broader MCP backend:
 
 - **124 registered tools** in one MCP registry
 - Workspace and file management
@@ -257,7 +257,7 @@ See the repository's `LICENSE` file if one is provided.
 
 ## Status
 
-**AI-Tunnel V4.2**
+**AI-Tunnel V1.2**
 
 - MCP Registry: **124 tools**
 - Backend self-test: **PASS**
