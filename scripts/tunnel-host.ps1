@@ -106,13 +106,22 @@ try {
     # launched from a client that supplied a reduced/incomplete environment.
     $systemRoot = if ($env:SystemRoot) { $env:SystemRoot } else { 'C:\Windows' }
     $pathParts = @(
-        $env:Path,
-        (Join-Path $systemRoot 'System32'),
-        $systemRoot,
-        $(if ($env:ProgramFiles) { Join-Path $env:ProgramFiles 'nodejs' } else { 'C:\Program Files\nodejs' }),
-        $(if ($env:ProgramFiles) { Join-Path $env:ProgramFiles 'Git\cmd' } else { 'C:\Program Files\Git\cmd' }),
-        $(if ($env:APPDATA) { Join-Path $env:APPDATA 'npm' } else { '' })
-    ) | Where-Object { -not [string]::IsNullOrWhiteSpace($_) -and (Test-Path -LiteralPath $_ -PathType Container) }
+        $env:Path -split ';'
+        Join-Path $systemRoot 'System32'
+        $systemRoot
+        if ($env:ProgramFiles) { Join-Path $env:ProgramFiles 'nodejs' } else { 'C:\Program Files\nodejs' }
+        if ($env:ProgramFiles) { Join-Path $env:ProgramFiles 'Git\cmd' } else { 'C:\Program Files\Git\cmd' }
+        if ($env:APPDATA) { Join-Path $env:APPDATA 'npm' }
+    ) | ForEach-Object {
+        $entry = ([string]$_).Trim().Trim('"')
+        if (-not [string]::IsNullOrWhiteSpace($entry)) {
+            try {
+                if (Test-Path -LiteralPath $entry -PathType Container -ErrorAction Stop) { $entry }
+            } catch {
+                # Ignore malformed inherited PATH entries; keep the usable directories.
+            }
+        }
+    }
     $env:Path = ($pathParts | Select-Object -Unique) -join ';'
 
     $psi = New-Object System.Diagnostics.ProcessStartInfo
@@ -167,7 +176,7 @@ try {
     Append-LineShared $HostLog ("[{0}] tunnel child exited with code {1}" -f (Get-Date).ToString("o"), $child.ExitCode)
     exit $child.ExitCode
 } catch {
-    Append-LineShared $HostLog ("[{0}] HOST ERROR: {1}" -f (Get-Date).ToString("o"), $_.Exception.Message)
+    Append-LineShared $HostLog ("[{0}] HOST ERROR at line {1}: {2} | Stack: {3}" -f (Get-Date).ToString("o"), $_.InvocationInfo.ScriptLineNumber, $_.Exception.Message, $_.ScriptStackTrace)
     exit 1
 } finally {
     if ($child) {
